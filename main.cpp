@@ -4,7 +4,7 @@
 
 #include <Data.h>
 
-const std::string PATCH="/home/arhiv/build-load-Desktop-MinSizeRel/";
+const std::string PATCH="";
 
 
 int main(){
