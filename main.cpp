@@ -15,11 +15,11 @@ int main(){
     Dgy_new_and_CEC_data dgy_and_CEC;
 
 
-    data_P.input_P_ptreb("/home/arhiv/.wine/drive_c/data_P.db","P_MOMA");
-    data_P.input_P_YRNT("/home/arhiv/.wine/drive_c/data_P.db","DGY_rab_YRNT");
-    data_P.input_Import_dgy("/home/arhiv/.wine/drive_c/data_P.db","import_dgy");
-    data_P.input_Sarax_dgy("/home/arhiv/.wine/drive_c/data_P.db","Sarax_dgy_proc");
-    data_P.input_R_ptreb("/home/arhiv/.wine/drive_c/data_P.db","R_MOMA");
+    data_P.input_P_ptreb("data_P.db","P_MOMA");
+    data_P.input_P_YRNT("data_P.db","DGY_rab_YRNT");
+    data_P.input_Import_dgy("data_P.db","import_dgy");
+    data_P.input_Sarax_dgy("data_P.db","Sarax_dgy_proc");
+    data_P.input_R_ptreb("data_P.db","R_MOMA");
 
     data.input(PATCH+"data");
 
@@ -173,6 +173,8 @@ int main(){
             }else{
                 data_P.P_let_summ.back().push_back(0);
             }
+
+
             //std::cout<<data_P.P_let_summ.back().back()<<std::endl;
             //
             if((!(data_P.P_let_summ.back().back()>0)) &&
@@ -192,6 +194,14 @@ int main(){
                 data_P.P_loading_dgy.back().push_back(data_P.P_ptreb[i][j]/data_P.P_let_summ.back().back()*100);
             }else{
                 data_P.P_loading_dgy.back().push_back(data_P.P_ptreb[i][j]/data_P.P_baz_summ.back().back()*100);
+            }
+
+            if(dgy_new.max_load<data_P.P_loading_dgy[i][j]){
+                dgy_new.max_load=data_P.P_loading_dgy[i][j];
+            }
+
+            if(dgy_new.min_load>data_P.P_loading_dgy[i][j]){
+                dgy_new.min_load=data_P.P_loading_dgy[i][j];
             }
 
             int k=0;
@@ -608,7 +618,7 @@ int main(){
 
     //Экспорт данных
     sqlite3 *db;
-    sqlite3_open("/home/arhiv/.wine/drive_c/data_P.db",&db);
+    sqlite3_open("data_P.db",&db);
 
     std::vector<std::string> sql_request;
     std::string defic="";
@@ -649,9 +659,9 @@ int main(){
     sql_request.push_back("(\""+std::to_string(dgy_new.production_dgy/1000)+"\")");
     sql_request.push_back("(\""+std::to_string(0)+"\")");
     sql_request.push_back("(\""+std::to_string(0)+"\")");
-    sql_request.push_back("(\""+std::to_string(0)+"\")");
-    sql_request.push_back("(\""+std::to_string(0)+"\")");
-    sql_request.push_back("(\""+std::to_string(0)+"\")");
+    sql_request.push_back("(\""+std::to_string(dgy_new.sr_load)+"\")");
+    sql_request.push_back("(\""+std::to_string(dgy_new.min_load)+"\")");
+    sql_request.push_back("(\""+std::to_string(dgy_new.max_load)+"\")");
     sql_request.push_back("(\""+std::to_string(dgy_new.Etalon_YRNT)+"\")");
     sql_request.push_back("(\""+std::to_string(0)+"\")");
     sql_request.push_back("(\""+std::to_string(dgy_new.Econom_oil)+"\")");
