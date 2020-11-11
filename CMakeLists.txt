@@ -15,7 +15,6 @@ add_executable(
 )
 
 add_subdirectory( ${PROJECT_SOURCE_DIR}/lib/libsqlite3-master)
-add_subdirectory( ${PROJECT_SOURCE_DIR}/lib/glm )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${PROJECT_SOURCE_DIR}/lib/libsqlite3-master
@@ -26,4 +25,4 @@ add_compile_options(-fPIC -O3 -march=haswell -std=c++1z)
 target_include_directories(${PROJECT_NAME}  PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(${PROJECT_NAME}  PUBLIC ${PROJECT_SOURCE_DIR}/source)
 
-target_link_libraries(${PROJECT_NAME} glm sqlite3)
+target_link_libraries(${PROJECT_NAME} sqlite3)
